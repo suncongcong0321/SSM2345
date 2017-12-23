@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface GradeMapper2 {
 
+    List<Grade> queryAl2();
     List<Grade> queryAll();
 
     Grade queryGradeById(Integer id);
