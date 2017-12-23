@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bdqn.dao.StudentMapper2">
+    <resultMap id="studentMap" type="Student">
+        <id property="id" column="id"></id>
+        <result property="age" column="age"/>
+        <result property="gender" column="gender"/>
+        <result property="StudentName" column="student_name"/>
+        <result property="StudentNum" column="student_num"/>
+        <association property="grade" resultMap="gradeMap"/>
+    </resultMap>
+    <resultMap id="gradeMap" type="Grade">
+        <id property="id" column="g_id"></id>
+        <result property="gradeName" column="grade_name"/>
+    </resultMap>
+
+    <select id="queryAll" resultMap="studentMap">
+        SELECT
+        s.*,g.id g_id,g.grade_name
+        FROM
+        student s,grade g
+        WHERE
+        s.grade_id=g.id
+        ORDER BY s.id DESC
+    </select>
+
+    <delete id="deleteStudentByList" parameterType="Integer">
+        delete FROM student
+        where id IN
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <insert id="addStudent" parameterType="Student">
+        INSERT INTO student
+        VALUES
+        (NULL,#{grade.id},#{studentName},#{gender},#{age},#{studentNum})
+    </insert>
+
+    <select id="queryStudentById" parameterType="Integer" resultMap="studentMap">
+        SELECT s.*,g.id g_id,g.grade_name
+        FROM student s,grade g
+        WHERE
+        s.grade_id=g.id
+        AND
+        s.id=#{id}
+    </select>
+
+    <update id="updateStudent" parameterType="Student">
+        UPDATE student
+        SET grade_id=#{grade.id},
+        student_name=#{studentName},
+        gender=#{gender},
+        age=#{age}
+        WHERE
+        id=#{id}
+    </update>
+</mapper>
