@@ -1,4 +1,4 @@
-package com.bdqn.dao;
+apackage com.bdqn.dao;
 
 import com.bdqn.entity.Grade;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface GradeMapper2 {
 
-    
+    int a = 0;
     List<Grade> queryAll();
 
     Grade queryGradeById(Integer id);
